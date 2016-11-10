@@ -24,15 +24,17 @@ public class JPQLReservedKeywordTest {
     private TestRestTemplate testRestTemplate;
 
     @Test
-    public void testSort_sortByUpdate() {
-        ResponseEntity<String> response = testRestTemplate.exchange("/persons/?sort=update,desc&size=10&page=0",
-                HttpMethod.GET, null, String.class);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-    }
-
-    @Test
     public void testSort_noSort() {
         ResponseEntity<String> response = testRestTemplate.exchange("/persons", HttpMethod.GET, null, String.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
+
+    @Test
+    public void testSort_sortByUpdate() {
+        ResponseEntity<String> response = testRestTemplate.exchange("/persons/?sort=update,desc&size=10&page=0",
+                HttpMethod.GET, null, String.class);
+        // The assertion below fails, we get an HttpStatus.INTERNAL_SERVER_ERROR
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
 }
